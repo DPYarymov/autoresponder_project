@@ -15,13 +15,13 @@ def timer(func):
         elapsed_time = (end_time - start_time) * 1000
         print(f"Время выполнения функции '{func.__name__}': {elapsed_time:.4f} мс")
         return result
+
     return wrapper
 
 
-def read_files(FILEPATH):
-
+def read_files(filepath):
     try:
-        with open(FILEPATH, 'r', encoding='utf-8') as file:
+        with open(filepath, 'r', encoding='utf-8') as file:
 
             file_list = []
             for string in file:
@@ -34,23 +34,24 @@ def read_files(FILEPATH):
         sys.exit()
 
 
-def delete_end_strings_in_lisr(list):   # удаление из файла ::"True", возврат modify_file
+def delete_end_strings_in_list(file_list):  # удаление из файла ::"True", возврат modify_file
 
     without_str_ends_fromtech_list = []
-    for str in list:
-        if str.endswith('::"true"'):
-            str = str[:-8]
-            without_str_ends_fromtech_list.append(str)
+    for row in file_list:
+        if row.endswith('::"true"'):
+            row = row[:-8]
+            without_str_ends_fromtech_list.append(row)
     return without_str_ends_fromtech_list
 
 
-def compile_regexes(list):   # компилируем список с рег. выраж.
+def compile_regexes(some_list):  # Компиллируем список с рег. выраж.
 
-    if list is None:
+    if some_list is None:
         return None
 
-    compiled_regexes = [re.compile(regex) for regex in list]
+    compiled_regexes = [re.compile(regex) for regex in some_list]
     return compiled_regexes
+
 
 @timer
 def search_for_matches(compiled_regexes_list, string, without_str_ends_fromtech_list):
@@ -62,13 +63,13 @@ def search_for_matches(compiled_regexes_list, string, without_str_ends_fromtech_
         if compiled_regular.search(string):
             end_time = time.perf_counter()
             elapsed_time = (end_time - start_time) * 1000
-            result = (f"{string}|{without_str_ends_fromtech_list[i]}|{elapsed_time:.6f} мс\n")
+            result = f"{string}|{without_str_ends_fromtech_list[i]}|{elapsed_time:.6f} мс\n"
             break
 
     if result is None:
         end_time = time.perf_counter()
         elapsed_time = (end_time - start_time) * 1000
-        result = (f"{string}|'Нет совпадений'| {elapsed_time:.6f} мс\n")
+        result = f"{string}|'Нет совпадений'| {elapsed_time:.6f} мс\n"
 
     return result
 
@@ -91,11 +92,12 @@ def search_function(autoresponder_list, compiled_regexes_list,
 
     return result_list
 
-def wright_file(list):
+
+def wright_file(res_list):
     try:
-        with open(RESULT_FILE_FILEPATH, 'w', encoding='utf-8') as result_file:
-            for i in list:
-                result_file.write(i)
+        with open(RESULT_FILE_FILEPATH, 'w', encoding='utf-8') as res_file:
+            for i in res_list:
+                res_file.write(i)
 
     except Exception as e:
         print(f"Произошла ошибка: {e}")
@@ -104,11 +106,12 @@ def wright_file(list):
 
 if __name__ == "__main__":
 
+
     fromtech_list = read_files(FROMTECH_FILEPATH)
 
     autoresponder_list = read_files(AUTORESPONDER_FILEPATH)
 
-    without_str_ends_fromtech_list = delete_end_strings_in_lisr(fromtech_list)
+    without_str_ends_fromtech_list = delete_end_strings_in_list(fromtech_list)
 
     compiled_regexes_list = compile_regexes(without_str_ends_fromtech_list)
 
