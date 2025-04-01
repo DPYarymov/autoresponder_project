@@ -104,6 +104,7 @@ def wright_file(string_list):  # Запись результатов в файл
 
 
 def main_function():
+
     fromtech_list = read_files(FROMTECH_FILEPATH)
 
     autoresponder_list = read_files(AUTORESPONDER_FILEPATH)
