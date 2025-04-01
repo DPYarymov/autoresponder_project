@@ -44,19 +44,18 @@ def delete_end_strings_in_list(file_list):  # удаление из файла :
     return without_str_ends_fromtech_list
 
 
-def compile_regexes(some_list):  # Компиллируем список с рег. выраж.
+def compile_regexes(string_list):  # Компилируем список с регулярными выражениями
 
-    if some_list is None:
+    if not string_list:
         return None
 
-    compiled_regexes = [re.compile(regex) for regex in some_list]
+    compiled_regexes = [re.compile(regex) for regex in string_list]
     return compiled_regexes
 
 
 @timer
-def search_for_matches(compiled_regexes_list, string, without_str_ends_fromtech_list):
+def search_for_matches(compiled_regexes_list, string, without_str_ends_fromtech_list):  # Поиск совпадений
     start_time = time.perf_counter()
-    # match_found = False
     result = None
 
     for i, compiled_regular in enumerate(compiled_regexes_list):
@@ -93,20 +92,18 @@ def search_function(autoresponder_list, compiled_regexes_list,
     return result_list
 
 
-def wright_file(res_list):
+def wright_file(string_list):  # Запись результатов в файл
     try:
-        with open(RESULT_FILE_FILEPATH, 'w', encoding='utf-8') as res_file:
-            for i in res_list:
-                res_file.write(i)
+        with open(RESULT_FILE_FILEPATH, 'w', encoding='utf-8') as file:
+            for row in string_list:
+                file.write(row)
 
     except Exception as e:
         print(f"Произошла ошибка: {e}")
         sys.exit()
 
 
-if __name__ == "__main__":
-
-
+def main_function():
     fromtech_list = read_files(FROMTECH_FILEPATH)
 
     autoresponder_list = read_files(AUTORESPONDER_FILEPATH)
@@ -118,3 +115,8 @@ if __name__ == "__main__":
     result_list = search_function(autoresponder_list, compiled_regexes_list, without_str_ends_fromtech_list)
 
     wright_file(result_list)
+
+
+if __name__ == "__main__":
+
+    main_function()
