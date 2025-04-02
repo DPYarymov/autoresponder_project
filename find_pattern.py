@@ -120,5 +120,4 @@ def main_function() -> None:
 
 
 if __name__ == "__main__":
-
     main_function()
