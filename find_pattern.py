@@ -19,7 +19,7 @@ def timer(func):
     return wrapper
 
 
-def read_files(filepath):
+def read_files(filepath: str) -> list[str]:
     try:
         with open(filepath, 'r', encoding='utf-8') as file:
 
@@ -34,7 +34,7 @@ def read_files(filepath):
         sys.exit()
 
 
-def delete_end_strings_in_list(file_list):  # удаление из файла ::"True", возврат modify_file
+def delete_end_strings_in_list(file_list: list[str]) -> list[str]:  # удаление из файла ::"True", возврат modify_file
 
     without_str_ends_fromtech_list = []
     for row in file_list:
@@ -44,7 +44,7 @@ def delete_end_strings_in_list(file_list):  # удаление из файла :
     return without_str_ends_fromtech_list
 
 
-def compile_regexes(string_list):  # Компилируем список с регулярными выражениями
+def compile_regexes(string_list: list[str]) -> None or list:  # Компилируем список с регулярными выражениями
 
     if not string_list:
         return None
@@ -54,7 +54,8 @@ def compile_regexes(string_list):  # Компилируем список с ре
 
 
 @timer
-def search_for_matches(compiled_regexes_list, string, without_str_ends_fromtech_list):  # Поиск совпадений
+def search_for_matches(compiled_regexes_list: list,
+                       string: str, without_str_ends_fromtech_list: list[str]) -> str: # Поиск совпадений
     start_time = time.perf_counter()
     result = None
 
@@ -73,8 +74,8 @@ def search_for_matches(compiled_regexes_list, string, without_str_ends_fromtech_
     return result
 
 
-def search_function(autoresponder_list, compiled_regexes_list,
-                    without_str_ends_fromtech_list):  # поиск совпадения строки с рег.выр.
+def search_function(autoresponder_list: list, compiled_regexes_list: list,
+                    without_str_ends_fromtech_list: list) -> str or list:  # поиск совпадения строки с рег.выр.
 
     result_list = []
 
@@ -92,7 +93,7 @@ def search_function(autoresponder_list, compiled_regexes_list,
     return result_list
 
 
-def wright_file(string_list):  # Запись результатов в файл
+def wright_file(string_list: list) -> None:  # Запись результатов в файл
     try:
         with open(RESULT_FILE_FILEPATH, 'w', encoding='utf-8') as file:
             for row in string_list:
@@ -103,7 +104,7 @@ def wright_file(string_list):  # Запись результатов в файл
         sys.exit()
 
 
-def main_function():
+def main_function() -> None:
 
     fromtech_list = read_files(FROMTECH_FILEPATH)
 
