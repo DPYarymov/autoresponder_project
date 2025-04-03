@@ -44,7 +44,7 @@ def delete_end_strings_in_list(file_list: list[str]) -> list[str]:  # удале
     return without_str_ends_fromtech_list
 
 
-def compile_regexes(string_list: list[str]) -> None or list:  # Компилируем список с регулярными выражениями
+def compile_regexes(string_list: list[str]) -> None | list:  # Компилируем список с регулярными выражениями
 
     if not string_list:
         return None
@@ -75,7 +75,7 @@ def search_for_matches(compiled_regexes_list: list,
 
 
 def search_function(autoresponder_list: list, compiled_regexes_list: list,
-                    without_str_ends_fromtech_list: list) -> str or list:  # поиск совпадения строки с рег.выр.
+                    without_str_ends_fromtech_list: list) -> str | list:  # поиск совпадения строки с рег.выр.
 
     result_list = []
 
